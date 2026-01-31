@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zildjian | Personal Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --card: rgba(15, 15, 15, 0.95);
+            --accent: #ffffff;
+            --text-main: #ffffff;
+            --text-dim: #888888;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden; /* Mencegah scroll manual agar transisi slide smooth */
+        }
+
+        /* Background Animasi Partikel */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            filter: blur(1px);
+        }
+
+        /* Container Utama */
+        .main-wrapper {
+            height: 400vh; /* 4 Slide */
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        section {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 40px 30px;
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        /* Slide 1: Profile */
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        /* Slide 2: About */
+        .bio-text {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-dim);
+            text-align: justify;
+        }
+
+        /* Slide 3: Game Hacker */
+        .game-title {
+            font-family: 'JetBrains Mono', monospace;
+            color: #00ff00;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        #scrambled-word {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            letter-spacing: 6px;
+            margin: 20px 0;
+            color: var(--accent);
+        }
+
+        .game-input {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid var(--border);
+            color: #fff;
+            border-radius: 8px;
+            text-align: center;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Slide 4: Pricing */
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-name { color: var(--text-dim); }
+        .price-val { font-weight: bold; }
+
+        /* Navigation UI */
+        .nav-controls {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--accent);
+            transform: scale(1.5);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Support Text */
+        .support-footer {
+            font-size: 0.7rem;
+            color: #444;
+            margin-top: 20px;
+        }
+
+        /* Audio Player Container */
+        .audio-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+<body onclick="playMusic()">
+
+    <canvas id="canvas"></canvas>
+
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/p9185g.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="audio-indicator" id="audioStat">CLICK ANYWHERE TO PLAY MUSIC ♫</div>
+
+    <div class="nav-controls" id="navDots">
+        <div class="dot active" onclick="scrollToSlide(0)"></div>
+        <div class="dot" onclick="scrollToSlide(1)"></div>
+        <div class="dot" onclick="scrollToSlide(2)"></div>
+        <div class="dot" onclick="scrollToSlide(3)"></div>
+    </div>
+
+    <div class="main-wrapper" id="wrapper">
+        
+        <section>
+            <div class="card">
+                <img src="https://autoresbot.com/tmp_files/7f9a5a8b-3675-4e5c-91fa-c43a013f6ed5.jpg" class="profile-img">
+                <h2 style="letter-spacing: 3px;">ZILDJIAN</h2>
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 25px;">Creative Developer & Designer</p>
+                
+                <div class="social-list">
+                    <a href="https://www.tiktok.com/@zildjian_______" class="social-link" target="_blank">Follow me TikTok</a>
+                    <a href="https://www.instagram.com/van_der_zildjian" class="social-link" target="_blank">Follow me Instagram</a>
+                    <a href="https://whatsapp.com/channel/0029VbCH9SfCHDyseo0hGB3o" class="social-link" target="_blank">Follow me Channel WA</a>
+                    <a href="https://www.youtube.com/@Zildjianshauqizahy" class="social-link" target="_blank">Follow me YouTube</a>
+                </div>
+
+                <div class="support-footer">
+                    SUPPORT ME: GOPAY/DANA 6285183122570
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="card">
+                <h2 style="margin-bottom: 20px;">Tentang Saya</h2>
+                <div class="bio-text">
+                    <p>Halo, saya <b>Zildjian</b>. Seorang individu yang antusias dalam mengeksplorasi dunia digital. Fokus saya adalah menghadirkan inovasi melalui kode dan desain yang elegan.</p>
+                    <br>
+                    <p>Bagi saya, setiap baris kode memiliki cerita, dan setiap desain memiliki jiwa. Saya percaya bahwa dedikasi dan kreativitas adalah kunci untuk menciptakan sesuatu yang berarti di era yang terus berubah ini.</p>
+                </div>
+                <p style="margin-top: 25px; font-style: italic; font-size: 0.8rem; color: #555;">"Just how fast the night changes..."</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="card">
+                <div class="game-title"># TERMINAL_CHALLENGE</div>
+                <p style="font-size: 0.8rem; color: var(--text-dim);">Tebak kata acak dibawah ini:</p>
+                
+                <div id="scrambled-word">LOADING...</div>
+                
+                <input type="text" id="gameInput" class="game-input" placeholder="Masukkan jawaban...">
+                <button onclick="checkGame()" class="social-link" style="width: 100%; margin-top: 15px; cursor: pointer;">Sumbit Answer</button>
+                <p id="gameFeedback" style="margin-top: 10px; font-size: 0.7rem; font-family: monospace;"></p>
+            </div>
+        </section>
+
+        <section>
+            <div class="card">
+                <h2 style="margin-bottom: 20px;">Services</h2>
+                
+                <div class="price-row">
+                    <span class="price-name">Pembuatan Website</span>
+                    <span class="price-val">Start 100K</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-name">Pembuatan Bot</span>
+                    <span class="price-val">Start 50K</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-name">Script (SC) Bot</span>
+                    <span class="price-val">Start 35K</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-name">Premium User Bot</span>
+                    <span class="price-val">5K / Bulan</span>
+                </div>
+
+                <a href="https://wa.me/6285183122570" class="social-link" style="margin-top: 30px; background: #fff; color: #000;">
+                    Hubungi Saya
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // 1. Navigation Logic
+        let currentSlide = 0;
+        const wrapper = document.getElementById('wrapper');
+        const dots = document.querySelectorAll('.dot');
+
+        function scrollToSlide(index) {
+            currentSlide = index;
+            wrapper.style.transform = `translateY(-${currentSlide * 100}vh)`;
+            
+            // Update dots
+            dots.forEach(d => d.classList.remove('active'));
+            dots[currentSlide].classList.add('active');
+        }
+
+        // Handle Mouse Wheel
+        window.addEventListener('wheel', (e) => {
+            if (e.deltaY > 0 && currentSlide < 3) scrollToSlide(currentSlide + 1);
+            else if (e.deltaY < 0 && currentSlide > 0) scrollToSlide(currentSlide - 1);
+        });
+
+        // 2. Music Logic
+        let isPlaying = false;
+        function playMusic() {
+            const music = document.getElementById('bgMusic');
+            if (!isPlaying) {
+                music.play();
+                music.volume = 0.5;
+                isPlaying = true;
+                document.getElementById('audioStat').innerText = "PLAYING: ONE DIRECTION - NIGHT CHANGES ♫";
+            }
+        }
+
+        // 3. Game Hacker Logic
+        const words = ["FIREWALL", "ENCRYPT", "DATABASE", "PHISHING", "SERVER", "NETWORK"];
+        let targetWord = "";
+
+        function initGame() {
+            targetWord = words[Math.floor(Math.random() * words.length)];
+            let scrambled = targetWord.split('').sort(() => Math.random() - 0.5).join('');
+            document.getElementById('scrambled-word').innerText = scrambled;
+            document.getElementById('gameInput').value = "";
+        }
+
+        function checkGame() {
+            const input = document.getElementById('gameInput').value.toUpperCase();
+            const feedback = document.getElementById('gameFeedback');
+            if(input === targetWord) {
+                feedback.innerText = "ACCESS GRANTED! CORRECT.";
+                feedback.style.color = "#00ff00";
+                setTimeout(initGame, 2000);
+            } else {
+                feedback.innerText = "ACCESS DENIED! TRY AGAIN.";
+                feedback.style.color = "#ff0000";
+            }
+        }
+
+        // 4. Background Animation (Canvas)
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        initParticles();
+        animate();
+        initGame();
+    </script>
+</body>
+  </html>
