@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zildjian Profile | V1-XYZ PRO</title>
+    <style>
+        :root {
+            --bg-color: #000;
+            --card-bg: rgba(15, 15, 15, 0.9);
+            --accent: #fff;
+            --text-dim: #bbb;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: #fff;
+            overflow: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Background Animation */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Slide Container */
+        section {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Slide 1 - Profile */
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .links-container a {
+            display: block;
+            text-decoration: none;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .links-container a:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Slide 2 - Introduction */
+        .bio-text {
+            line-height: 1.6;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .bio-text b { color: #fff; }
+
+        /* Navigation Buttons */
+        .nav-btn {
+            margin-top: 20px;
+            cursor: pointer;
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover { background: #fff; color: #000; }
+
+        /* Audio Player Hidden */
+        #music-player { display: none; }
+    </style>
+</head>
+<body onclick="playMusic()">
+
+    <div class="stars" id="star-container"></div>
+
+    <iframe id="music-player" width="0" height="0" src="https://www.youtube.com/embed/syFZfO_bd7Q?autoplay=1" frameborder="0" allow="autoplay"></iframe>
+    <audio id="bg-audio" loop>
+        <source src="https://www.myinstants.com/media/sounds/night-changes-chorus.mp3" type="audio/mpeg">
+    </audio>
+
+    <section id="slide-1">
+        <div class="card">
+            <img src="https://autoresbot.com/tmp_files/7f9a5a8b-3675-4e5c-91fa-c43a013f6ed5.jpg" class="profile-img">
+            <h2>Zildjian</h2>
+            <p style="color: #888; margin-bottom: 20px;">V1-XYZ PRO Developer</p>
+            
+            <div class="links-container">
+                <a href="https://www.tiktok.com/@zildjian_______?_r=1&_t=ZS-93XB2QvR2VG">TikTok</a>
+                <a href="https://www.instagram.com/van_der_zildjian?igsh=eGJxYml0eXkzNjJm">Instagram</a>
+                <a href="https://whatsapp.com/channel/0029VbCH9SfCHDyseo0hGB3o">WhatsApp Channel</a>
+                <a href="https://www.youtube.com/@Zildjianshauqizahy">YouTube</a>
+            </div>
+
+            <p style="font-size: 12px; margin-top: 20px; color: #555;">Support Me: Gopay/Dana 6285183122570</p>
+            <button class="nav-btn" onclick="goToSlide(2)">Tentang Saya ➔</button>
+        </div>
+    </section>
+
+    <section id="slide-2">
+        <div class="card">
+            <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px;">About Me</h2>
+            <div class="bio-text">
+                <p>Halo, saya <b>ZILDJIAN</b>.</p>
+                <p>Saya adalah owner sekaligus pengembang di balik <b>V1-XYZ PRO</b>. Fokus saya adalah menciptakan sistem bot yang cerdas dan fungsional bagi para pengguna setia saya.</p>
+                <p>Bagi saya, teknologi bukan sekadar kode, tapi tentang bagaimana kita memberikan kemudahan bagi orang lain. Anda bisa menghubungi saya melalui kontak di slide sebelumnya untuk pendaftaran premium atau kolaborasi.</p>
+                <p><i>"Everything is changing, but the vision stays the same."</i></p>
+            </div>
+            <button class="nav-btn" onclick="goToSlide(1)">⬅ Kembali</button>
+        </div>
+    </section>
+
+    <script>
+        // Star Background Generation
+        const container = document.getElementById('star-container');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            container.appendChild(star);
+        }
+
+        // Navigation Logic
+        function goToSlide(slideNum) {
+            const s1 = document.getElementById('slide-1');
+            const s2 = document.getElementById('slide-2');
+            if(slideNum === 2) {
+                s1.style.transform = 'translateY(-100%)';
+                s2.style.transform = 'translateY(-100%)';
+            } else {
+                s1.style.transform = 'translateY(0)';
+                s2.style.transform = 'translateY(0)';
+            }
+        }
+
+        // Music Logic
+        let musicStarted = false;
+        function playMusic() {
+            if(!musicStarted) {
+                const audio = document.getElementById('bg-audio');
+                audio.volume = 0.5;
+                audio.play();
+                musicStarted = true;
+            }
+        }
+    </script>
+</body>
+                  </html>
