@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Zildjian</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .background-animation span {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: move-up 10s linear infinite;
+        }
+
+        @keyframes move-up {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+
+        .container {
+            background-color: rgba(20, 20, 20, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            width: 90%;
+            z-index: 1;
+            position: relative;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            100% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            font-size: 2em;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        p {
+            margin-top: 0;
+            font-size: 1.1em;
+            color: #ccc;
+        }
+
+        .social-links a {
+            display: block;
+            background-color: #333;
+            color: #fff;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-links a:hover {
+            background-color: #555;
+            transform: translateY(-3px);
+        }
+
+        .support-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+
+        .support-info h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #eee;
+        }
+
+        .support-info p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+
+    <div class="container">
+        <img src="https://autoresbot.com/tmp_files/7f9a5a8b-3675-4e5c-91fa-c43a013f6ed5.jpg" alt="Foto Profil" class="profile-image">
+        <h1>Zildjian</h1>
+        <p>Selamat datang di profil saya!</p>
+
+        <div class="social-links">
+            <a href="https://www.tiktok.com/@zildjian_______?_r=1&_t=ZS-93XB2QvR2VG" target="_blank">Follow me TikTok</a>
+            <a href="https://www.instagram.com/van_der_zildjian?igsh=eGJxYml0eXkzNjJm" target="_blank">Follow me Instagram</a>
+            <a href="https://whatsapp.com/channel/0029VbCH9SfCHDyseo0hGB3o" target="_blank">Follow me Channel WA</a>
+            <a href="https://www.youtube.com/@Zildjianshauqizahy" target="_blank">Follow me YouTube</a>
+        </div>
+
+        <div class="support-info">
+            <h2>Support Me</h2>
+            <p>Gopay: 6285183122570</p>
+            <p>Dana: 6285183122570</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript untuk membuat efek animasi latar belakang
+        const backgroundAnimation = document.querySelector('.background-animation');
+
+        function createBubble() {
+            const bubble = document.createElement('span');
+            const size = Math.random() * 60 + 20; // Ukuran antara 20px dan 80px
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.animationDuration = `${Math.random() * 5 + 5}s`; // Durasi antara 5s dan 10s
+            bubble.style.animationDelay = `${Math.random() * -5}s`; // Agar muncul tidak bersamaan
+            backgroundAnimation.appendChild(bubble);
+
+            // Hapus bubble setelah animasinya selesai
+            bubble.addEventListener('animationend', () => {
+                bubble.remove();
+            });
+        }
+
+        // Buat bubble secara berkala
+        setInterval(createBubble, 300); // Setiap 300ms
+        for (let i = 0; i < 20; i++) { // Buat beberapa bubble di awal
+            createBubble();
+        }
+    </script>
+</body>
+  </html>
